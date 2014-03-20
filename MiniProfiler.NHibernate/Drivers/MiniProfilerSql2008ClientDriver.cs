@@ -1,11 +1,12 @@
-﻿using System;
+﻿﻿using System;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 using NHibernate.AdoNet;
 using NHibernate.Driver;
 using StackExchange.Profiling.NHibernate.Infrastructure;
 
-namespace StackExchange.Profiling.NHibernate.Drivers
+namespace StackExchange.Profiling.NHibernate.Drivers.SQLServer
 {
     public class MiniProfilerSql2008ClientDriver : Sql2008ClientDriver, IEmbeddedBatcherFactoryProvider
     {
@@ -14,7 +15,7 @@ namespace StackExchange.Profiling.NHibernate.Drivers
             var command = base.CreateCommand();
 
             if (MiniProfiler.Current != null)
-                command = new ProfiledSqlDbCommand((DbCommand)command, MiniProfiler.Current);
+                command = new ProfiledGenericDbCommand<SqlCommand>((DbCommand)command, MiniProfiler.Current);
 
             return command;
         }
